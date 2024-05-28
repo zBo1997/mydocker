@@ -1,0 +1,51 @@
+{
+    "workbench.iconTheme": "vscode-icons",
+    "editor.fontSize": 16,
+    "files.autoSave": "onFocusChange",
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "git.autofetch": true,
+    "go.useLanguageServer": true,
+    "go.buildOnSave": "off",
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+        "--disable-all"
+    ],
+    "go.vetFlags": [],
+    "go.autocompleteUnimportedPackages": true,
+    "go.gotoSymbol.includeImports": false,
+    "go.gotoSymbol.includeGoroot": false,
+    "go.useCodeSnippetsOnFunctionSuggest": true,
+    "go.formatTool": "goreturns",
+    "go.docsTool": "gogetdoc",
+    "[go]": {
+        "editor.snippetSuggestions": "top",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "go.toolsEnvVars": {
+        "GO111MODULE": "on",
+        "GOPROXY": "https://goproxy.io,direct",
+        "GOOS": "Linux",
+    },
+    "go.languageServerExperimentalFeatures": {
+        "format": true,
+        "autoComplete": true,
+        "rename": true,
+        "goToDefinition": true,
+        "hover": true,
+        "signatureHelp": true,
+        "goToTypeDefinition": false,
+        "goToImplementation": false,
+        "documentSymbols": true,
+        "workspaceSymbols": true,
+        "findReferences": true,
+        "diagnostics": false,
+        "completeUnimported": true,
+        "watchFileChanges": true,
+        "deepCompletion": true,
+    },
+}

@@ -1,0 +1,9 @@
+./vscode/*
+*.exe
+*.dll
+*.com
+*.bat
+*.bin
+*.x86_64
+*.x86
+mydocker

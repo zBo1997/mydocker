@@ -31,7 +31,7 @@ var runCommand = cli.Command{
 }
 
 var initCommand = cli.Command{
-	Name:  "init ",
+	Name:  "init",
 	Usage: "Init container process run user's process in container. Do not call it outside",
 	/*
 		1.获取传递过来的 command 参数

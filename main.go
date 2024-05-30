@@ -1,6 +1,12 @@
 package main
 
-import "github.com/urfave/cli"
+import (
+	"os"
+
+	log "github.com/sirupsen/logrus"
+
+	"github.com/urfave/cli"
+)
 
 // 这是一个提示
 const usage = `mydocker is a simple container runtime implementation.
@@ -14,4 +20,16 @@ func main() {
 	app.Usage = usage
 
 	app.Commands = []cli.Command{initCommand, runCommand}
+
+	app.Before = func(context *cli.Context) error {
+		// Log as JSON instead of the default ASCII formatter.
+		log.SetFormatter(&log.JSONFormatter{})
+
+		log.SetOutput(os.Stdout)
+		return nil
+	}
+
+	if err := app.Run(os.Args); err != nil {
+		log.Fatal(err)
+	}
 }

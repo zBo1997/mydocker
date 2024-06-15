@@ -29,7 +29,7 @@
     "go.toolsEnvVars": {
         "GO111MODULE": "on",
         "GOPROXY": "https://goproxy.io,direct",
-        "GOOS": "Linux",
+        "GOOS": "linux",
     },
     "go.languageServerExperimentalFeatures": {
         "format": true,

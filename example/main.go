@@ -1,9 +1,7 @@
-//go:build linux
-// +build linux
-
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -11,6 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"syscall"
 
 	"github.com/urfave/cli"
@@ -24,7 +23,46 @@ import (
 func main() {
 	// namespace()
 	// cgroups()
-	urfaveCli()
+	//urfaveCli()
+	//获取Cgroup的
+	testmemorylimit := findCgroupMountpoint("memory")
+	fmt.Println(testmemorylimit)
+}
+
+// 这里是为了测试cgroup v1版本 看是否可以拿到队友的挂载点
+func findCgroupMountpoint(subsystem string) string {
+	// 打开一个系统目录文件
+	// /proc/self/mountinfo 为当前进程的 mountinfo 信息
+	// 可以直接通过 cat /proc/self/mountinfo 命令查看
+	f, error := os.Open("/proc/self/mountinfo")
+	if error != nil {
+		return ""
+	}
+	//最后关闭打开的内容
+	defer f.Close()
+	//开始逐行读取内容
+	scanner := bufio.NewScanner(f)
+	//一直读取文件内容，直到返回false
+	for scanner.Scan() {
+		// txt 大概是这样的：104 85 0:20 / /sys/fs/cgroup/memory rw,nosuid,nodev,noexec,relatime - cgroup cgroup rw,memory
+		txt := scanner.Text()
+		// 按照空格区分 获取属性
+		fields := strings.Split(txt, " ")
+		fmt.Println(fields)
+		// 其中的的 memory 就表示这是一个 memory subsystem
+		subsystems := strings.Split(fields[len(fields)-1], ",")
+		for _, opt := range subsystems {
+			if opt == subsystem {
+				// 如果等于指定的 subsystem，那么就返回这个挂载点跟目录，就是第四个元素，
+				// 这里就是`/sys/fs/cgroup/memory`,即我们要找内存的cgroups的根目录
+				return fields[4]
+			}
+		}
+	}
+
+	//如果发现错误这返回位空的挂载点
+	error = scanner.Err()
+	return "empty"
 }
 
 // namespace 如何在Go中新建Namespace

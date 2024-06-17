@@ -21,3 +21,8 @@ type Subsystem interface {
 	// Remove 移除某个cgroup
 	Remove(path string) error
 }
+
+// SubsystemsIns 通过不同的subsystem初始化实例创建资源限制处理链数组
+var SubsystemsIns = []Subsystem{
+	&MemorySubSystem{},
+}

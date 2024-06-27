@@ -34,10 +34,7 @@ func (s *MemorySubSystem) Set(cgroupPath string, res *ResourceConfig) error {
 }
 
 // Apply 将pid加入到cgroupPath对应的cgroup中
-func (s *MemorySubSystem) Apply(cgroupPath string, pid int, res *ResourceConfig) error {
-	if res.MemoryLimit == "" {
-		return nil
-	}
+func (s *MemorySubSystem) Apply(cgroupPath string, pid int) error {
 	subsysCgroupPath, err := getCgroupPath(s.Name(), cgroupPath, false)
 	if err != nil {
 		return errors.Wrapf(err, "get cgroup %s", cgroupPath)
@@ -54,5 +51,6 @@ func (s *MemorySubSystem) Remove(cgroupPath string) error {
 	if err != nil {
 		return err
 	}
+	//删处则个目录下得所有文件
 	return os.RemoveAll(subsysCgroupPath)
 }

@@ -16,8 +16,9 @@ const mountPointIndex = 4
 * 获取group的绝对路径
  */
 func getCgroupPath(subsystem string, cgroupPath string, autoCreate bool) (string, error) {
-	//获取
+	//获取groupRoot路径
 	cgroupRoot := findCgroupMountpoint(subsystem)
+	log.Info("read root path:", cgroupRoot)
 	absPath := path.Join(cgroupRoot, cgroupPath)
 	if !autoCreate {
 		return absPath, nil

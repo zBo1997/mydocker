@@ -4,6 +4,7 @@ import (
 	"os"
 	"strings"
 
+	"mydocker/cgroups"
 	"mydocker/cgroups/subsystems"
 	"mydocker/container"
 
@@ -25,6 +26,15 @@ func Run(tty bool, cmdArray []string, resource *subsystems.ResourceConfig) {
 	if err := parent.Start(); err != nil {
 		log.Errorf("Run parent.Start err:%v", err)
 	}
+	// 创建cgroup manager, 并通过调用set和apply设置资源限制并使限制在容器上生效
+	cgroupManager := cgroups.NewCgroupManager("mydocker-cgroup")
+	// 在结束后进行摧毁cgroup
+	defer cgroupManager.Destroy()
+	// 设置资源设置配置
+	_ = cgroupManager.Set(resource)
+	// 应用资源限制
+	_ = cgroupManager.Apply(parent.Process.Pid)
+
 	// 在子进程创建后通过管道来发送参数
 	sendInitCommand(cmdArray, writePipe)
 	_ = parent.Wait()

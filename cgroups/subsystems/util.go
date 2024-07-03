@@ -2,11 +2,12 @@ package subsystems
 
 import (
 	"bufio"
-	"errors"
+	"mydocker/constant"
 	"os"
 	"path"
 	"strings"
 
+	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -23,7 +24,14 @@ func getCgroupPath(subsystem string, cgroupPath string, autoCreate bool) (string
 	if !autoCreate {
 		return absPath, nil
 	}
-	return "", errors.New("")
+	// 指定自动创建时才判断是否存在
+	_, err := os.Stat(absPath)
+	// 只有不存在才创建
+	if err != nil && os.IsNotExist(err) {
+		err = os.Mkdir(absPath, constant.Perm0755)
+		return absPath, err
+	}
+	return absPath, errors.Wrap(err, "create cgroup")
 }
 
 /*

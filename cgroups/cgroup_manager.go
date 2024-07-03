@@ -32,6 +32,7 @@ func (c *CgroupManager) Apply(pid int) error {
 
 // 这里才是批量设置资源限制的方法
 func (c *CgroupManager) Set(res *subsystems.ResourceConfig) error {
+	logrus.Info("manager resource:", res)
 	for _, subSysIns := range subsystems.SubsystemsIns {
 		err := subSysIns.Set(c.Path, res)
 		if err != nil {

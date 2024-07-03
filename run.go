@@ -18,6 +18,7 @@ import (
 去初始化容器的一些资源。
 */
 func Run(tty bool, cmdArray []string, resource *subsystems.ResourceConfig) {
+	log.Info("resource :", resource)
 	parent, writePipe := container.NewParentProcess(tty)
 	if parent == nil {
 		log.Errorf("New parent process error")

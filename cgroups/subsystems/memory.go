@@ -39,7 +39,7 @@ func (s *MemorySubSystem) Set(cgroupPath string, res *ResourceConfig) error {
 }
 
 // Apply 将pid加入到cgroupPath对应的cgroup中
-func (s *MemorySubSystem) Apply(cgroupPath string, pid int) error {
+func (s *MemorySubSystem) Apply(cgroupPath string, pid int, res *ResourceConfig) error {
 	subsysCgroupPath, err := getCgroupPath(s.Name(), cgroupPath, false)
 	if err != nil {
 		return errors.Wrapf(err, "get cgroup %s", cgroupPath)

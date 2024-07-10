@@ -34,7 +34,7 @@ func Run(tty bool, cmdArray []string, resource *subsystems.ResourceConfig) {
 	// 设置资源设置配置
 	_ = cgroupManager.Set(resource)
 	// 应用资源限制
-	_ = cgroupManager.Apply(parent.Process.Pid)
+	_ = cgroupManager.Apply(parent.Process.Pid, resource)
 
 	// 在子进程创建后通过管道来发送参数
 	sendInitCommand(cmdArray, writePipe)

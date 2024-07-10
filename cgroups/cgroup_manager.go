@@ -20,9 +20,9 @@ func NewCgroupManager(path string) *CgroupManager {
 }
 
 // 批量设置对应pid进程的cgroup资源限制
-func (c *CgroupManager) Apply(pid int) error {
+func (c *CgroupManager) Apply(pid int, res *subsystems.ResourceConfig) error {
 	for _, subsystemsIns := range subsystems.SubsystemsIns {
-		err := subsystemsIns.Apply(c.Path, pid)
+		err := subsystemsIns.Apply(c.Path, pid, res)
 		if err != nil {
 			logrus.Errorf("apply subsystem:%s err:%s", subsystemsIns.Name(), err)
 		}
